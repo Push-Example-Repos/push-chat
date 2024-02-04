@@ -1,34 +1,37 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useState, ChangeEvent } from "react";
+import { useSelector } from "react-redux";
 
-import AddContactsBtn from "./AddContactsBtn";
 import Contacts from "./Contacts";
-import { Button } from "@material-tailwind/react";
+import AddContactsBtn from "./AddContactsBtn";
+import ContactsSearch from "./ContactsSearch";
 
 const ContactsBody = () => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const recentContact = useSelector((state: any) => state.push.recentContact);
+
+  const filteredContacts = recentContact.filter((contact: any) =>
+    contact.did.split(":")[1].toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+  };
+
   return (
-    <div className="space-y-3 h-full">
-      <div className="flex items-center rounded-full bg-gray-100 border border-bubble-gum">
-        <div className="flex justify-center items-center rounded-full px-3 py-2">
-          <MagnifyingGlassIcon className="h-5 w-5 text-primary-white" />
+    <div className="flex flex-col space-y-3 h-full">
+      <ContactsSearch value={searchValue} onSearch={handleSearch} />
 
-          <input
-            type="text"
-            placeholder="Search"
-            className="bg-transparent outline-none text-base ml-3 w-full text-primary-white"
-          />
-        </div>
-      </div>
-
-      <div className="px-2 py-1 flex flex-col overflow-hidden relative">
+      <div className="px-2 py-1 flex flex-col overflow-hidden relative h-full">
         <div className="flex items-center justify-between w-full mb-3">
           <h2 className="text-2xl font-bold text-black">Contacts</h2>
           <AddContactsBtn />
         </div>
 
-        <div className="overflow-y-auto mb-20 hide-scroll">
-          <Contacts />
+        <div className="overflow-y-auto hide-scroll flex flex-1 flex-grow">
+          <Contacts contacts={filteredContacts} />
         </div>
       </div>
     </div>

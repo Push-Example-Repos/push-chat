@@ -6,26 +6,28 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FC } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateRecentRequest } from "@/redux/slice/pushSlice";
 
 interface RequestsItemProps {
   request: any;
 }
 
 const RequestsItem: FC<RequestsItemProps> = ({ request }) => {
+  const dispatch = useDispatch();
   const pubKey = request.did.split(":")[1];
 
   const pushSign = useSelector((state: any) => state.push.pushSign);
 
   const handleAcceptRequest = async () => {
     await pushSign.chat.accept(pubKey);
-
+    dispatch(updateRecentRequest(request.did));
     toast.success("Request accepted");
   };
 
   const handleRejectRequest = async () => {
     await pushSign.chat.reject(pubKey);
-
+    dispatch(updateRecentRequest(request.did));
     toast.success("Request rejected");
   };
 

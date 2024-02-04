@@ -31,6 +31,11 @@ const NewContactsModal = () => {
       return;
     }
 
+    if (pushSign.account === address) {
+      toast.error("You cannot send request to yourself");
+      return;
+    }
+
     await pushSign.chat.send(address, {
       type: "Text",
       content: message,

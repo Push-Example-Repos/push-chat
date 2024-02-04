@@ -47,9 +47,9 @@ const Requests = () => {
   }, [isConnected, signer, pushSign, dispatch]);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative flex-1 h-full w-full">
       {isLoading ? (
-        <p className="text-primary-white/60 z-10 absolute top-10 left-1/2 animate-spin">
+        <p className="text-primary-white/60 z-10 absolute left-1/2 animate-spin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

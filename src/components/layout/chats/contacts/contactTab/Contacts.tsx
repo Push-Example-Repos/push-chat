@@ -11,7 +11,11 @@ import { setRecentContact } from "@/redux/slice/pushSlice";
 
 import ContactsItem from "./ContactsItem";
 
-const Contacts: FC = () => {
+interface IContacts {
+  contacts: any;
+}
+
+const Contacts: FC<IContacts> = ({ contacts }) => {
   const dispatch = useDispatch();
 
   const signer = useEthersSigner();
@@ -26,7 +30,21 @@ const Contacts: FC = () => {
     const initializeChats = async () => {
       try {
         const chatsLists = await pushSign.chat.list("CHATS");
-        dispatch(setRecentContact(chatsLists));
+
+        const filterRecentContact = chatsLists.map((chat: any) => ({
+          profilePicture: chat.profilePicture,
+          did: chat.did,
+          name: chat.name,
+          about: chat.about,
+          chatId: chat.chatId,
+          msg: {
+            content: chat.msg.messageContent,
+            timestamp: chat.msg.timestamp,
+            fromDID: chat.msg.fromDID,
+          },
+        }));
+
+        dispatch(setRecentContact(filterRecentContact));
         setIsLoading(false);
       } catch (error) {
         toast.error("Error fetching contacts");
@@ -40,7 +58,7 @@ const Contacts: FC = () => {
   }, [pushSign, isConnected, signer, dispatch]);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative h-full w-full">
       {isLoading ? (
         <p className="text-primary-white/60 z-10 absolute top-0 left-1/2 animate-spin">
           <svg
@@ -58,7 +76,7 @@ const Contacts: FC = () => {
         </p>
       ) : (
         <div className="flex flex-col gap-2">
-          {recentContact.map((chat: any, index: number) => (
+          {contacts.map((chat: any, index: number) => (
             <ContactsItem key={index} chat={chat} />
           ))}
         </div>
