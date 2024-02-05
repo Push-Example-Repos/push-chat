@@ -14,6 +14,7 @@ import RequestsBody from "./requestsTab/RequestsBody";
 
 const ContactsTab = () => {
   const [activeTab, setActiveTab] = useState("contacts");
+
   const data = [
     {
       label: "Contacts",
@@ -28,7 +29,7 @@ const ContactsTab = () => {
   ];
 
   return (
-    <Tabs value={activeTab} className="flex-grow flex flex-col mx-2">
+    <Tabs value={activeTab} className="flex-grow flex flex-col mx-2 w-3/12">
       <TabsHeader
         placeholder=""
         className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"

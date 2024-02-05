@@ -15,7 +15,7 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <Link
       className="prevent-select flex w-fit items-center gap-2 mb-4"
-      href="/home"
+      href="/"
     >
       <Image
         src="/logo-text.svg"
