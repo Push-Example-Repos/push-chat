@@ -1,5 +1,7 @@
+// Use client directive
 "use client";
 
+// Importing necessary hooks and components from react, wagmi, react-hot-toast, react-redux, and local files
 import { FC } from "react";
 import { useAccount } from "wagmi";
 import toast from "react-hot-toast";
@@ -7,30 +9,43 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEthersSigner } from "@/wagmi/EthersSigner";
 
+// Importing the setRecentContact action from the pushSlice
 import { setRecentContact } from "@/redux/slice/pushSlice";
 
+// Importing the ContactsItem component
 import ContactsItem from "./ContactsItem";
 
+// Defining the props interface for the Contacts component
 interface IContacts {
   contacts: any;
 }
 
+// Defining the Contacts component
 const Contacts: FC<IContacts> = ({ contacts }) => {
+  // Using the useDispatch hook to dispatch actions
   const dispatch = useDispatch();
 
+  // Using the useEthersSigner hook to get the signer
   const signer = useEthersSigner();
+  // Using the useAccount hook to get the isConnected state
   const { isConnected } = useAccount();
 
+  // Defining a state for loading
   const [isLoading, setIsLoading] = useState(true);
 
+  // Using the useSelector hook to get the pushSign and recentContact from the Redux store
   const pushSign = useSelector((state: any) => state.push.pushSign);
   const recentContact = useSelector((state: any) => state.push.recentContact);
 
+  // Using the useEffect hook to perform side effects
   useEffect(() => {
+    // Defining an asynchronous function to initialize chats
     const initializeChats = async () => {
       try {
+        // Fetching the list of chats from the pushSign object
         const chatsLists = await pushSign.chat.list("CHATS");
 
+        // Mapping over the chats list to filter out the necessary contact details
         const filterRecentContact = chatsLists.map((chat: any) => ({
           profilePicture: chat.profilePicture,
           did: chat.did,
@@ -44,22 +59,31 @@ const Contacts: FC<IContacts> = ({ contacts }) => {
           },
         }));
 
+        // Dispatching an action to set the recent contacts in the Redux store
         dispatch(setRecentContact(filterRecentContact));
+        // Setting the loading state to false as the chats have been fetched
         setIsLoading(false);
       } catch (error) {
+        // Displaying an error toast if there's an error while fetching contacts
         toast.error("Error fetching contacts");
       }
     };
 
+    // Checking if the user is connected and if the signer and pushSign exist
     if (isConnected && signer && pushSign) {
+      // Setting the loading state to true before fetching the chats
       setIsLoading(true);
+      // Calling the function to initialize chats
       initializeChats();
     }
+    // The effect depends on the pushSign, isConnected, signer, and dispatch variables
   }, [pushSign, isConnected, signer, dispatch]);
 
   return (
+    // Wrapping the component in a div
     <div className="relative h-full w-full">
       {isLoading ? (
+        // If the component is loading, display a spinning SVG
         <p className="text-primary-white/60 z-10 absolute top-0 left-1/2 animate-spin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,10 +95,12 @@ const Contacts: FC<IContacts> = ({ contacts }) => {
           </svg>
         </p>
       ) : recentContact.length === 0 ? (
+        // If there are no recent contacts, display a message
         <p className="text-primary-white/60 py-2 text-center bg-gray-100 rounded-lg mt-2">
           No contacts to show
         </p>
       ) : (
+        // If there are recent contacts, map over them and render a ContactsItem component for each
         <div className="flex flex-col gap-2">
           {contacts.map((chat: any, index: number) => (
             <ContactsItem key={index} chat={chat} />

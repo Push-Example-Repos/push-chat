@@ -1,5 +1,7 @@
+// This directive is used to specify the client-side execution context
 "use client";
 
+// Importing necessary hooks and components
 import { useAccount } from "wagmi";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
@@ -10,21 +12,28 @@ import { setRecentRequest } from "@/redux/slice/pushSlice";
 
 import RequestsItem from "./RequestsItem";
 
+// Defining the Requests component
 const Requests = () => {
+  // Using Redux hooks for dispatching actions and accessing state
   const dispatch = useDispatch();
   const signer = useEthersSigner();
   const { isConnected } = useAccount();
 
+  // Local state for loading status
   const [isLoading, setIsLoading] = useState(true);
 
+  // Accessing necessary pieces of state from Redux store
   const pushSign = useSelector((state: any) => state.push.pushSign);
   const recentRequest = useSelector((state: any) => state.push.recentRequest);
 
+  // Effect hook to initialize requests
   useEffect(() => {
     const initializeRequests = async () => {
       try {
+        // Fetching requests list
         const requestsLists = await pushSign.chat.list("REQUESTS");
 
+        // Filtering recent requests
         const filterRecentRequest = requestsLists.map((request: any) => ({
           profilePicture: request.profilePicture,
           did: request.did,
@@ -33,22 +42,27 @@ const Requests = () => {
           about: request.about,
         }));
 
+        // Dispatching action to set recent requests in Redux store
         dispatch(setRecentRequest(filterRecentRequest));
         setIsLoading(false);
       } catch (error) {
+        // Displaying error toast if fetching requests fails
         toast.error("Error fetching requests");
       }
     };
 
+    // If connected and signer and pushSign are available, initialize requests
     if (isConnected && signer && pushSign) {
       setIsLoading(true);
       initializeRequests();
     }
   }, [isConnected, signer, pushSign, dispatch]);
 
+  // Rendering the component
   return (
     <div className="relative flex-1 h-full w-full">
       {isLoading ? (
+        // If loading, display a spinner
         <p className="text-primary-white/60 z-10 absolute left-1/2 animate-spin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,10 +74,12 @@ const Requests = () => {
           </svg>
         </p>
       ) : recentRequest.length === 0 ? (
+        // If no requests, display a message
         <p className="text-primary-white/60 py-2 text-center bg-gray-100 rounded-lg mt-2">
           No Requests to show
         </p>
       ) : (
+        // If requests are available, map over them and render a RequestsItem for each
         <div className="flex flex-col gap-2">
           {recentRequest.map((request: any, index: number) => (
             <RequestsItem key={index} request={request} />
@@ -74,4 +90,5 @@ const Requests = () => {
   );
 };
 
+// Exporting the Requests component as the default export of this module
 export default Requests;

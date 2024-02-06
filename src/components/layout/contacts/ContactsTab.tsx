@@ -1,5 +1,7 @@
+// This directive is used to specify the client-side execution context
 "use client";
 
+// Importing components from the Material Tailwind library and the useState hook from React
 import {
   Tabs,
   TabsHeader,
@@ -7,14 +9,19 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+
 import { useState } from "react";
 
+// Importing child components
 import ContactsBody from "./contactTab/ContactsBody";
 import RequestsBody from "./requestsTab/RequestsBody";
 
+// Defining the ContactsTab component
 const ContactsTab = () => {
+  // Using the useState hook to manage the active tab state
   const [activeTab, setActiveTab] = useState("contacts");
 
+  // Defining the data for the tabs
   const data = [
     {
       label: "Contacts",
@@ -28,6 +35,7 @@ const ContactsTab = () => {
     },
   ];
 
+  // Rendering the component
   return (
     <Tabs value={activeTab} className="flex-grow flex flex-col mx-2 w-3/12">
       <TabsHeader
@@ -37,6 +45,7 @@ const ContactsTab = () => {
           className: "border-b-2 border-black shadow-none rounded-none",
         }}
       >
+        {/* Mapping over the data array to render the tabs */}
         {data.map(({ label, value }) => (
           <Tab
             placeholder=""
@@ -63,6 +72,7 @@ const ContactsTab = () => {
       </TabsHeader>
 
       <TabsBody placeholder="" className="flex-grow">
+        {/* Mapping over the data array to render the tab panels */}
         {data.map(({ value, body }) => (
           <TabPanel key={value} value={value} className="px-0 h-full">
             {body}
@@ -73,4 +83,5 @@ const ContactsTab = () => {
   );
 };
 
+// Exporting the ContactsTab component as the default export of this module
 export default ContactsTab;

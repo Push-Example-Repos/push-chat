@@ -6,7 +6,7 @@ import Link from "next/link";
 const GithubCorner = () => {
   return (
     <Link
-      href="https://github.com/Gautam25Raj/next-push-starter"
+      href="https://github.com/Push-Example-Repos/push-chat"
       target="_blank"
       rel="noreferrer"
     >
