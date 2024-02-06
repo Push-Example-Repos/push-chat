@@ -21,6 +21,9 @@ export default function usePush() {
         env: CONSTANTS.ENV.STAGING,
       });
 
+      if (user.errors.length > 0)
+        throw new Error("Error initializing push protocol");
+
       dispatch(setPushSign(user as any));
 
       const stream = await user.initStream(
@@ -88,6 +91,7 @@ export default function usePush() {
       return user;
     } catch (error) {
       toast.error("Request Rejected");
+      throw new Error("Error initializing push protocol");
     }
   };
 

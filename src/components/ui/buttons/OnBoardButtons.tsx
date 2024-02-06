@@ -43,7 +43,6 @@ const SignWalletBtn: FC = () => {
 
       router.push("/chats");
     } catch (err) {
-      console.log(err);
       toast.error("Error initializing Push Protocol");
     }
   };
