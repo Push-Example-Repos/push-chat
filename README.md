@@ -38,27 +38,27 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 2. **Onboarding Page**: Upon accessing the application, you'll be directed to the Onboarding Page, where you'll initiate the setup process.
 
-   ![Onboarding Page](screenshots/onboarding_page.png)
+   ![Onboarding Page](screenshots/onboarding_page.PNG)
 
 3. **Connect with Metamask or Coinbase Wallet**:
 
    - **Metamask**: If you have Metamask installed, click on the "Connect with Metamask" button. A popup will appear prompting you to connect your Metamask wallet to the Push Chat. Follow the instructions to connect your wallet.
 
-   ![Metamask Connect](screenshots/metamask_connect.png)
+   ![Metamask Connect](screenshots/metamask_connect.PNG)
 
    - **Coinbase Wallet**: Alternatively, if you prefer to use Coinbase Wallet, click on the "Connect with Coinbase Wallet" button. You'll be redirected to the Coinbase Wallet login page. Enter your credentials to connect your wallet.
 
-   ![Coinbase Wallet Connect](screenshots/coinbase_connect.png)
+   ![Coinbase Wallet Connect](screenshots/coinbase_connect.PNG)
 
 4. **Initialize Push Protocol**:
 
    - After connecting your wallet, the Push Protocol initialization process will begin automatically. A confirmation message will be displayed once Push Protocol is successfully initialized.
 
-   ![Push Protocol Initialization](screenshots/push_protocol_init.png)
+   ![Push Protocol Initialization](screenshots/push_protocol_init.PNG)
 
 5. **Confirmation and Start Chatting**: Once both your wallet is connected and Push Protocol is initialized, you'll receive a confirmation message. You're now ready to start chatting with other users in Push Chat!
 
-   ![Push Chat](screenshots/push_chat.png)
+   ![Push Chat](screenshots/push_chat.PNG)
 
 ## Project Folder Structure
 
@@ -151,6 +151,7 @@ Here are some additional resources you may find helpful:
 - [Push Chat Documentation](https://push.org/docs/chat): Comprehensive documentation for using and extending Push Chat.
 - [Push Protocol SDK Documentation](https://push.org/docs): Documentation for integrating Push Protocol SDK into your applications.
 - [Tailwind CSS Documentation](https://tailwindcss.com): Official documentation for Tailwind CSS, used for styling Push Chat.
+- [Next.js Documentation](https://nextjs.org/docs): Official documentation for Next js App routing.
 
 ## Conclusion
 
