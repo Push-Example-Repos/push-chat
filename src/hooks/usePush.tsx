@@ -8,6 +8,7 @@ import {
   setPushSign,
   setRecentContact,
   setRecentRequest,
+  updateMessages,
 } from "@/redux/slice/pushSlice";
 import toast from "react-hot-toast";
 
@@ -43,7 +44,14 @@ export default function usePush() {
 
       stream.on(CONSTANTS.STREAM.CHAT, async (data: any) => {
         data.event.includes("message")
-          ? console.log("MESSAGE", data)
+          ? dispatch(
+              updateMessages({
+                fromDID: data.from,
+                timestamp: data.timestamp,
+                messageContent: data.message.content,
+                messageType: data.message.type,
+              })
+            )
           : data.event.includes("request")
           ? user.chat.list("REQUESTS").then((requests: any) => {
               const filterRecentRequest = requests.map((request: any) => ({
